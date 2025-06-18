@@ -18,6 +18,9 @@
     <h2>${user.name}님 마이페이지</h2>
     <p>아이디: ${user.userid}</p>
     <p>이메일: ${user.email}</p>
+    <form method="get" action="${pageContext.request.contextPath}/list.board">
+        <button type="submit">게시판</button>
+    </form>
     <form method="get" action="modifyForm.member">
         <button type="submit">회원정보 수정</button>
     </form>

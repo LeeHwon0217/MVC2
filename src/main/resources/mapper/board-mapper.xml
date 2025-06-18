@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+    <resultMap id="BoardResultMap" type="com.koreait.mvc2.dto.BoardDTO">
+        <id property="idx" column="idx"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="userId" column="user_id"/>
+        <result property="regDate" column="regdate"/>
+        <result property="viewCount" column="view_count"/>
+    </resultMap>
+
+    <insert id="insertBoard" parameterType="com.koreait.mvc2.dto.BoardDTO">
+        insert into board (user_id, title, content) values (#{userId}, #{title}, #{content})
+    </insert>
+    <select id="getBoardList" parameterType="map" resultType="com.koreait.mvc2.dto.BoardDTO">
+        select
+        idx, title, content, user_id AS userId, regdate as regDate, view_count as viewCount from board
+        order by idx desc
+        limit #{start}, #{pageSize}
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        select count(idx) from board
+    </select>
+
+    <select id="getBoard" resultMap="BoardResultMap" parameterType="int">
+        select * from board where idx = #{idx}
+    </select>
+
+    <update id="increaseViewCount" parameterType="int">
+        update board set view_count = view_count + 1 where idx=#{idx}
+    </update>
+
+    <update id="updateBoard" parameterType="com.koreait.mvc2.dto.MemberDTO">
+        update board set title=#{title}, content=#{content} where idx=#{idx}
+    </update>
+
+    <delete id="deleteBoard" parameterType="int">
+        delete from board where idx=#{idx}
+    </delete>
+
+</mapper>
